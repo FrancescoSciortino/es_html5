@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Posizione attuale
+    
+    <body>
+        <header>
+            <h1>Dove sei nel mondo?!</h1>
+    
+        </header>
+        <section>
+            <article>
+                <p id="demo">Dove ti trovi?</p>
+
+                    <button onclick="getLocation()">Prova!</button>
+                    <script>
+                    var x=document.getElementById("demo");
+                    function getLocation(){
+                        if (navigator.geolocation){
+                            //funzione supportata o autorizzata,
+                            //richiamo la funzione di callback showPosition
+                            navigator.geolocation.getCurrentPosition(showPosition);
+                        }else{
+                            x.innerHTML= "Geolocalizzazione non supportata";
+                        }
+                    }
+                    function showPosition(position){
+                    x.innerHTML="Latitudine: " + position.coords.latitude +
+                    " Longitudine: " + position.coords.longitude; }
+                    </script>
+
+
+
+                    
+                </p>
+                <footer>
+                    <p>
+                        <canvas id="myCanvas" width="200" height="100"></canvas>
+                    </p>
+                </footer>
+            </article>
+        </section>
+        <nav>
+            
+        </nav>
+        <aside>
+            <video width="320" height="240" controls>
+                <source src="filmato.mp4" type="video/mp4">
+                </video>
+                
+        </aside>
+        
+    
+    
+    </body>
+</html>
+    
