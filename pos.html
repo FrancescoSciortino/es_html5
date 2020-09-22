@@ -11,6 +11,7 @@
         </header>
         <section>
             <article>
+                    
                 <p id="demo">Dove ti trovi?</p>
 
                     <button onclick="getLocation()">Prova!</button>
@@ -28,6 +29,8 @@
                     function showPosition(position){
                     x.innerHTML="Latitudine: " + position.coords.latitude +
                     " Longitudine: " + position.coords.longitude; }
+                    var position = new google.maps.LatLng(lat, lng);
+                    
                     </script>
 
 

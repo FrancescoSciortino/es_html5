@@ -49,14 +49,44 @@
                         <form action="MAILTO:acquistaMIGNOLONE@DitaGrandi.it" method="POST" >
                         <input type="submit" value="Contattaci!">
                         </form>
+                        <br>
+                        <div id="drop" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
                 </p>
                 <footer>
                     <p><b>É un prodotto</b> DitaGrandi.srl</p>
                     
-            <a href="pos.html" alt="scopri dove sei">La tua posizione attuale</a><br>
-            <img id="drag" src="img1.gif" draggable="true"
-            ondragstart ="drag(event)">
-                
+                <a href="pos.html" alt="scopri dove sei">La tua posizione attuale</a><br>
+                <img id="drag" src="img1.gif" draggable="true"
+                ondragstart ="drag(event)">
+                <canvas id="myCanvas" width="200" height="100"></canvas>
+                <script> function write(text){
+                    var c=document.getElementById("myCanvas");
+                    var ctx=c.getContext("2d");
+                    ctx.font="30px Arial";
+                    ctx.fillText(text,10,50);
+                }
+                </script>
+
+
+                <script> function drag(ev){
+                    ev.dataTransfer.setData("mioTrasferimento",ev.target.id);
+                        write("drag");
+                    }
+                </script>
+
+                <script> function allowDrop(ev){
+                        write("drop")
+                }
+                </script>
+
+                <script> function cleancan(){
+                    var c=document.getElementById("myCanvas");
+                    var ctx=c.getContext("2d");
+                    ctx.clearRect(0, 0, c.width, c.height);
+                }
+
+                </script>
+                <button id="mybutton" width="150" height="80" onclick="cleancan()">Pulisci</button>
                 </footer>
             </article>
         </section>
