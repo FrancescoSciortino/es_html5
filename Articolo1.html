@@ -7,11 +7,34 @@
     </head>
     
     <body>
+        <div id="mPage_menu" style="display: none;" class="mobile_only">
+
+            <a href="Articolo1.html" alt="Vai all'articolo"><em>La moda e i suoi nemici</em></a>
+            <a href="Articolo2.html" alt="Vai all'articolo"><em>Non so che scrivere</em></a>
+            <a href="Articolo3.html" alt="Vai all'articolo"><em>Nuova cura per il cancro?</em></a>
+
+
+        </div>
         <nav>
             <div class="topbar">
                 <a href="Articolo1.html" alt="Vai all'articolo"><em>La moda e i suoi nemici</em></a>
                 <a href="Articolo2.html" alt="Vai all'articolo"><em>Non so che scrivere</em></a>
                 <a href="Articolo3.html" alt="Vai all'articolo"><em>Nuova cura per il cancro?</em></a>
+            </div>
+            <div id="mobile_nav" class="mobile_only">
+                <button id="burgher_menu" width="50px" height="50px" onclick="open_burgher_menu()"><img src="burgher.png" width="50px">
+                </button>
+
+            <script> function open_burgher_menu(){
+                var d = document.getElementById("mPage_menu");
+                    if(d.style.display=="none"){
+                        d.style.display = "inline";
+                    }else{
+                        d.style.display = "none";
+                    }
+                }
+            </script>
+
             </div>
         </nav>
         <div class="upbox">
@@ -22,7 +45,6 @@
             </header>
                     
         </div>
-        
         
         
         <section>
@@ -37,12 +59,12 @@
                 <head>
                     <title>Screditatori della moda</title>
                 </head>
-                <footer>
-                    <h6><b>Articolo scritto da:</b><strong>Anonimo</strong></h6>
-                </footer>
                 <header>
                     <h1><em>La moda è un arte? Non secondo Karl M. Axel</em></h1>
                 </header>
+                <footer>
+                    <h6><b>Articolo scritto da:</b><strong>Anonimo</strong></h6>
+                </footer>
                 <p class="testo_articolo">
                     "Non c'è niente di elegante" secondo il miliardario, naturalista e filantropo <b>Karl M. Axel</b>  
                     L'alta moda non andrebbe valutata al pari delle arti classiche come Pittura Teatro o Calcetto a 5  
@@ -54,7 +76,7 @@
             </article>
         </section>
         
-        <audio controls>
+        <audio class="music_source" controls>
             <source src="musica.mp3" type="audio/mpeg">
             </audio>
         <aside>
