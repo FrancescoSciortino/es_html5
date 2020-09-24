@@ -18,18 +18,18 @@ body{
 .upbox{
     text-align: center;
     position: relative;
-    margin-right: 0px;
     border: 2px solid;
     padding: 0px;
     border-radius: 9px;
     background-color: chocolate;
     width: 450px;
     bottom: 0px;
-    transform: translateX(441px);
+    /*transform: translateX(441px);*/
     box-shadow: 3px 3px 3px dimgray;
     margin: 0px;
     margin-top: 40px;
-
+    margin-left: auto;
+    margin-right: auto;
 }
 .topbar a{
     margin-left: 20px;
@@ -38,7 +38,9 @@ body{
 .topbar{
     margin-top: 3px;
     margin-bottom: 6px;
-    transform: translateX(410px);
+    margin-left: auto;
+    margin-right: auto;
+    width: 620px;
 }
 nav{
     z-index: 2;
@@ -97,3 +99,7 @@ margin-left: 30px;
     margin-top: 0px;
     height: 125px;
 }*/
+.lvup{
+    margin-left: auto;
+    margin-right: auto;
+}
