@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Blog scemo su cose sceme</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="styleB.css">
+    </head>
+    
+    <body>
+        
+        <div id="pulsante">
+            <button id="pulsante_responsive" type="button" class="btn btn-outline-primary btn-block" onclick="show_hide_alert()"><p id="clickme">Menù</p></button>
+            <script> function show_hide_alert(){
+                var d = document.getElementById("allert_up");
+                var b = document.getElementById("black_transparent_screen");
+                    if(d.style.display=="none"){
+                        b.style.display = "block";
+                        d.style.display = "block";
+
+                    }else{
+                        b.style.display = "none";
+                        d.style.display = "none";
+                    }
+                }
+            </script>
+            
+            
+
+        </div>
+        <div id="first_box">
+            <h1 id="Titolo">Scemonet</h1>
+        </div>
+        <div id="allert_up" style="display: none;" class="alert alert-primary rounded-bottom" role="alert">
+            <p id="scritta_allert_up">Hai premuto un pulsante! Bravo!</p> 
+        </div>
+        <div id="black_transparent_screen" style="display: none;">
+
+
+
+        </div>
+        <article>
+
+
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                <div id="carosello" class="carousel-inner">
+                  <a class="carousel-item active" href="Articolo1.html" alt="Vai all'articolo">
+                    <header>
+                        <h2 class="sottotitolo"><b>Il mondo della moda</b></h2>
+                    </header>
+                    <header>
+                        <h1 class="titolo"><em>La moda è un arte? Non secondo Karl M. Axel</em></h1>
+                    </header>
+
+                    <footer class="autore">
+                           <p><b>Articolo scritto da:</b><strong>Anonimo</strong></p>
+                    </footer>
+                  </a>
+                  <a class="carousel-item" href="Articolo3.html" alt="Vai all'articolo">
+                    <header>
+                        <h2 class="sottotitolo"><b>Benessere e salute</b></h2>
+                    </header>
+                    <header>
+                        <h1 class="titolo"><em>Limone endovena, nuova cura per il cancro?</em></h1>
+                    </header>
+
+                    <footer class="autore">
+                        <p><b>Articolo scritto da:</b>Francesco S.</p>
+                    </footer>
+                  </a>
+                  <a class="carousel-item" href="Articolo2.html" alt="Vai all'articolo">
+                    <header>
+                        <h2 class="sottotitolo"><b>Lavoro e tecnologia</b></h2>
+                    </header>
+                    <header>
+                    <h1 class="titolo"><em>Non so che scrivere, articolo a caso</em></h1>
+                    </header>
+
+                    <footer class="autore">
+                        <p><b>Articolo scritto da:</b>Francesco Sciortino</p>
+                    </footer>
+                  </a>
+                </div>
+              </div>
+        </article>
+        
+
+
+        
+    
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    </body>
+</html>
+    
