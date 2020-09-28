@@ -9,20 +9,22 @@
     </head>
     
     <body>
-        <nav >
+        <nav>
             <div id="navbar" class="container">
                 <div class="row justify-content-between">
                     <p id="nome_sito" class="col-3 text-nowrap"> Blog scemo con<br>notizie sceme</p>
+                    <a class="col-3" href="ToDo.html" alt='Vai a "To Do"'>Gestisci i tuoi impegni</a>
                 </div>
 
             </div>
         </nav>
 
-        <p  style="text-align: center;">numero articoli : <span id="n_of_elements" class="badge badge-secondary"></span></p>
+        <p id="num_articles" >numero articoli : <span id="n_of_elements" class="badge badge-secondary"></span></p>
 
         <article class="container">
             <div class="row justify-content-between">
-                <div class="big_box rounded col-12">
+                <div class= "col-12 col-lg-4">
+                <div class="big_box rounded">
                     <div class="box_titolo_e_articolo">
                      
                     <header>
@@ -40,11 +42,20 @@
             
                     </p>
                     </div>
-
-                    <footer>
-                        <p><b>Articolo scritto da:</b><strong>Anonimo</strong></p>
+                    <div class="row" style="width: 100%; margin-left: auto; margin-right: auto;">
+                        
+                    <footer class="col-9 ">
+                        <p class="text-truncate"><b>Articolo scritto da:</b><strong>Anonimo</strong></p>
                     </footer>
+
+                    <div class="like_div col-3">
+                        <button id="like_button1" type="button" class="btn like_button btn-secondary float-right" onclick="like(1)" data-toggle="button">Like</button>
+                    </div>
+
+                    </div>
                     
+                    
+
                     <div id="commenti1">
                     </div>
 
@@ -57,11 +68,11 @@
                     <div  class="input-group">
                         <textarea id="text_in1" class="form-control" aria-label="With textarea" placeholder="Commenta..."></textarea>
                     </div>
-    
+                    </div>
                 </div>
                 
-    
-                <div id="big_box_2" class="big_box rounded col-12" >
+                <div class="col-12 col-lg-4">
+                <div id="big_box_2" class="big_box rounded">
                     <div class="box_titolo_e_articolo">
                         
                         <header>
@@ -87,10 +98,16 @@
                             </ul>
                         </p>
                     </div>
-                    
-                    <footer>
-                        <p><b>Articolo scritto da:</b>Francesco Sciortino</p>
-                    </footer>
+                    <div class="row" style="width: 100%; margin-left: auto; margin-right: auto;">
+                        <footer class="col-9">
+                            <p class="text-truncate"><b>Articolo scritto da:</b>Francesco Sciortino</p>
+                        </footer>
+    
+                        <div class="like_div col-3" >
+                            <button id="like_button2" type="button" class="btn like_button btn-secondary float-right" onclick="like(2)" data-toggle="button">Like</button>
+                        </div>
+
+                    </div>
 
                     <div id="commenti2">
                     </div>
@@ -98,17 +115,17 @@
                     <div  class="input-group mb-3">
                         <input id="user_in2" type="text" class="form-control" placeholder="Il tuo NickName">
                         <div class="input-group-append">
-                          <button class="btn btn-outline-secondary bottoni_input" type="button" id="button-comment2" onclick="input(2)">Invia</button>
+                          <button class="btn btn-outline-secondary bottoni_input" type="button" id="button-comment2" onclick="input(2)" >Invia</button>
                         </div>
                     </div>
                     <div  class="input-group">
                         <textarea id="text_in2" class="form-control" aria-label="With textarea" placeholder="Commenta..."></textarea>
                     </div>
                     
-    
                 </div>
-    
-                <div class="big_box rounded col-12">
+                </div>
+                <div class=" col-12 col-lg-4">
+                <div class="big_box rounded">
                     <div class="box_titolo_e_articolo">
                     <header>
                         <h2><b>Benessere e salute</b></h2>
@@ -134,10 +151,16 @@
                         </ol>
                     </p>
                     </div>
-
-                    <footer>
-                        <p><b>Articolo scritto da:</b>Francesco S.</p>
+                    <div class="row" style="width: 100%; margin-left: auto; margin-right: auto;">
+                        
+                    <footer class="col-9">
+                        <p class="text-truncate"><b>Articolo scritto da:</b>Francesco S.</p>
                     </footer>
+
+                    <div class="like_div col-3">
+                        <button id="like_button3" type="button" class="btn btn-secondary like_button float-right" onclick="like(3)" data-toggle="button">Like</button>
+                    </div>
+
                     <div id="commenti3">
                     </div>
                     
@@ -150,7 +173,7 @@
                     <div  class="input-group">
                         <textarea id="text_in3" class="form-control" aria-label="With textarea" placeholder="Commenta..."></textarea>
                     </div>
-    
+                </div>
                 </div>
             </div>
         </article>
@@ -165,55 +188,37 @@
 
         <script>
             jQuery(document).ready(function(){
-                var numItems = $('.big_box').length
-                $('#n_of_elements').html(numItems)
-
-                if($(window).width() > 768) {
-                    $('.big_box').removeClass('col-12');
-                    $('.big_box').addClass('col-3');
-                }else{
-                    $('.big_box').removeClass('col-3');
-                    $('.big_box').addClass('col-12');
-                }                
-
-                if($(window).width() > 991) {
-                    $('#nome_sito').removeClass('col-3');
-                    $('#nome_sito').addClass('col-2');
-                }else{
-                    $('#nome_sito').removeClass('col-2');
-                    $('#nome_sito').addClass('col-3');
-                }                
-            })
-            
-        </script>
-        <script>
-            $(window).on('resize', function() {
-                if($(window).width() > 768) {
-                    $('.big_box').removeClass('col-12');
-                    $('.big_box').addClass('col-3');
-                }else{
-                    $('.big_box').removeClass('col-3');
-                    $('.big_box').addClass('col-12');
-                }
-                if($(window).width() > 991) {
-                    $('#nome_sito').removeClass('col-3');
-                    $('#nome_sito').addClass('col-2');
-                }else{
-                    $('#nome_sito').removeClass('col-2');
-                    $('#nome_sito').addClass('col-3');
-                }     
+                var numItems = $('.big_box').length;
+                $('#n_of_elements').html(numItems);
             })
         </script>
 
         <script> function input(int){
                 var user = $("#user_in" + int).val();
                 var comment = $("#text_in" + int).val();
-                var testo_sopra = "<b>"+ user + "</b> scrive:";
-                var nuovoDiv = $('<div class="containers commento rounded"><p class="comm_up_text text-break">' + testo_sopra +'</p><p class="comm_low_text text-break">' + comment + ' </p></div>');
-                nuovoDiv.appendTo("#commenti" + int);
-                $("#text_in" + int).val("");
+                if(user == ""){
+                    user = "Anonimo";
+                }
+                if(comment == ""){
+                }else{
+                    var testo_sopra = "<b>"+ user + "</b> scrive:";
+                    var nuovoDiv = $('<div class="containers commento rounded"><p class="comm_up_text text-break">' + testo_sopra +'</p><p class="comm_low_text text-break">' + comment + ' </p></div>');
+                    nuovoDiv.appendTo("#commenti" + int);
+                    $("#text_in" + int).val("");
+                }
         }
 
+        </script>
+        <script> function like(int){
+                var tasto = $("#like_button" + int);
+                if(tasto.hasClass('btn-secondary')){
+                    $('#like_button' + int).removeClass('btn-secondary');
+                    $('#like_button' + int).addClass('btn-primary');
+                }else if(tasto.hasClass('btn-primary')){
+                    $('#like_button' + int).removeClass('btn-primary');
+                    $('#like_button' + int).addClass('btn-secondary');
+            }
+        }
         </script>
     </body>
 </html>
