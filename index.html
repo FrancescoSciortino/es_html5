@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html>
     <head>
         <meta charset="utf-8">
         <title>Blog scemo su cose sceme</title>
@@ -29,6 +28,23 @@
             <div id="row_container" class="row justify-content-between">
                 <div id="invisible_box" class= "col-12 col-lg-4"></div>
             </div>
+
+            <!-- per debug
+                <div id="_box0" class= "col-12 col-lg-4">
+                <div class="big_box rounded '+ featured + draft + '">
+                    <div class="box_titolo_e_articolo"><header><h2><b>TAG</b></h2></header><header><h1><em>TITOLO</em></h1></header>
+                        <p class="testo_articolo">Qui ce il testo</p>
+                    </div>
+                    <div class="row" style="width: 100%; margin-left: auto; margin-right: auto;">
+                        <footer class="col-9"><p class="text-truncate"><b>Articolo scritto da:</b>Autore</p></footer> 
+                        <div class="like_div col-3">
+                            <button id="like_button0" type="button" class="btn btn-secondary like_button float-right" onclick="controllore.like('like_button0')" data-toggle="button">Like</button></div>
+                            <div id="commenti0"></div>
+                            <div  class="input-group mb-3"><input id="user_in0" type="text" class="form-control" placeholder="Il tuo NickName">
+                                <div class="input-group-append"><button class="btn btn-outline-secondary bottoni_input" type="button" id="button-comment0" onclick="controllore.input_comment('#user_in0','#text_in0',0)">Invia</button>
+                                </div></div>
+                                <div  class="input-group"><textarea id="text_in0" class="form-control" aria-label="With textarea" placeholder="Commenta..."></textarea></div></div></div>'
+                            -->
         </article>
 
 
@@ -99,9 +115,8 @@
 
                 controllore = new ArticleController(array_Articoli);
                 controllore.get_array_from("https://api.npoint.io/24620ef625c768a4f3c4");
-                controllore.aggiorna_articoli();
+                /*controllore.aggiorna_articoli();*/
                 
-
                 /*console.log(myjson);*/
                 var numItems = $('.big_box').length;
                 $('#n_of_elements').html(numItems);
