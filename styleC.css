@@ -84,4 +84,6 @@ header{
 }.like_div{
     padding-left: 0;
     padding-right: 0;
+}.featured{
+    box-shadow: 10px 5px rgb(71, 9, 77);
 }
