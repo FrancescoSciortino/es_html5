@@ -27,6 +27,9 @@
 
         <article class="container">
             <div id="row_container" class="row justify-content-between">
+
+                <div id= "sep"></div>
+
                 <div id="invisible_box" class= "col-12 col-lg-4"></div>
             </div>
 
@@ -94,6 +97,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script src="app/model/Articolo.js"></script>
+        <script src="app/services/RestController.js"></script>
         <script src="app/controller/ArticleController.js"></script>
     
     
@@ -114,7 +118,8 @@
                     */
                 var array_in = [];
 
-                controllore = new ArticleController(array_Articoli);
+                controllore = new ArticleController(array_Articoli, this);
+                controllore.init();
                 controllore.get_array_from("https://texty-89895.firebaseio.com/posts.json");
                 /*controllore.aggiorna_articoli();*/
                 

@@ -1,13 +1,25 @@
 class ArticleController{
 
-    constructor(array_Articoli_){
-        this.array_Articoli = array_Articoli_;
-        
+    constructor(array_Articoli_, context_pagina){
         var array_Articoli;
-        var postcontainer;
-        var modal;
-        var addPostBtn;
-        var array_n;
+        this.array_Articoli = array_Articoli_;
+        var url_output;
+        var modalTitle;
+        var modalText;
+        var modalTags;
+        var modalUser;
+        
+        this.url_output = "https://texty-89895.firebaseio.com/posts.json";
+        this.url_get= "https://texty-89895.firebaseio.com/posts.json";
+        this.modalTitle = $("#title_in_modal");
+        this.modalText = $("#text_in_modal");
+        this.modalTags = $("#categoria_in_modal");
+        this.modalUser = $("#user_in_modal");
+    }
+    init(){
+        $(document).ready(function(){
+
+        })
     }
 
     
@@ -28,6 +40,8 @@ class ArticleController{
     input_comment(int){
         var user = $("#user_in" + int).val();
         var comment = $("#text_in" + int).val();
+        
+        console.log("commento", user, comment);
         if(user == ""){
             user = "Anonimo";
         }
@@ -36,15 +50,15 @@ class ArticleController{
             var testo_sopra = "<b>"+ user + "</b> scrive:";
             var nuovoDiv = $('<div class="containers commento rounded"><p class="comm_up_text text-break">' + testo_sopra +'</p><p class="comm_low_text text-break">' + comment + ' </p></div>');
             nuovoDiv.appendTo("#commenti" + int);
-            $("#user_in" + int).val("");
+            $("#text_in" + int).val("");
         }
     }
     /* modale */
     clean_modal(){
-        $("#user_in_modal").val("");
-        $("#categoria_in_modal").val("");
-        $("#title_in_modal").val("");
-        $("#text_in_modal").val("");
+        this.modalUser.val("");
+        this.modalTags.val("");
+        this.modalTitle.val("");
+        this.modalText.val("");
     } genera_id(article){
         
         var lettere = [];
@@ -122,8 +136,8 @@ class ArticleController{
         
         var numero_art = $(".box_titolo_e_articolo").length;   /* aggiustare con funzione che cerca primo num libero */
         var nome_pulsante = "like_button" + numero_art;
-        var id_comment_text_in = "#text_in" + numero_art;
-        var id_comment_user_in = "#user_in" + numero_art;
+        var id_comment_text_in = "text_in" + numero_art;
+        var id_comment_user_in = "user_in" + numero_art;
         var featured = "";
         var draft = "";
         if(articolo.featured == true){
@@ -144,14 +158,18 @@ class ArticleController{
     }
 
     add_Article_to_Array(article){
-        this.post_article_to( "https://texty-89895.firebaseio.com/posts.json", article);
+        this.post_article_to( this.url_output, article);
 
 
         array_Articoli[array_Articoli.length] = new Articolo(article.tag,article.titolo,article.testo,article.autore);
     }
 
     appendi_Articolo(articolo){
-        this.genera_html_Articolo(articolo).prependTo($("#row_container"));
+        if(articolo.featured == true){
+            this.genera_html_Articolo(articolo).prependTo($("#row_container"));
+        }else{
+            this.genera_html_Articolo(articolo).insertAfter($("#sep"));
+        }
     }
     DeleteArticle_from_page(int){
         $("#_box" + int).detach();
@@ -186,6 +204,8 @@ class ArticleController{
         for(var i = 0; i<array_Articoli.length;i++){
             this.appendi_Articolo(array_Articoli[i]);
         }
+        var numero_art = $(".box_titolo_e_articolo").length;
+        $("#n_of_elements").html(numero_art);
     }
 
     /* "https://api.npoint.io/24620ef625c768a4f3c4" */
