@@ -25,9 +25,9 @@ class ArticleController{
         }
     }
 /* input commenti  CAMBIARE NOME */
-    input_comment(user_id,text_id,int){
-        var user = $(user_id).val();
-        var comment = $(text_id).val();
+    input_comment(int){
+        var user = $("#user_in" + int).val();
+        var comment = $("#text_in" + int).val();
         if(user == ""){
             user = "Anonimo";
         }
@@ -36,7 +36,7 @@ class ArticleController{
             var testo_sopra = "<b>"+ user + "</b> scrive:";
             var nuovoDiv = $('<div class="containers commento rounded"><p class="comm_up_text text-break">' + testo_sopra +'</p><p class="comm_low_text text-break">' + comment + ' </p></div>');
             nuovoDiv.appendTo("#commenti" + int);
-            $(text_id).val("");
+            $("#user_in" + int).val("");
         }
     }
     /* modale */
@@ -45,7 +45,35 @@ class ArticleController{
         $("#categoria_in_modal").val("");
         $("#title_in_modal").val("");
         $("#text_in_modal").val("");
+    } genera_id(article){
+        
+        var lettere = [];
+        lettere[0] = article.testo.charAt(0);
+        if(lettere[0] = " "){
+            lettere[0] = "_";
+        }
+        lettere[1] = article.testo.charAt((article.testo.length - 1));
+        if(lettere[1] = " " || typeof lettere[1] == undefined){
+            lettere[1] = "_";
+        }
+        lettere[2] = article.titolo.charAt(0);
+        if(lettere[2] = " "){
+            lettere[2] = "_";
+        }
+        lettere[3] = article.testo.charAt(article.titolo.length - 1);
+        if(lettere[3] = " " || typeof lettere[3] == undefined){
+            lettere[3] = "_";
+        }
+        var string_id = "-MJ0";
+        for(var i = 0; i<lettere.length;i++){
+            string_id += lettere[i];
+        }
+        string_id += "-KBd" + lettere.length +"_pa"+ "jPV";
+
+        return string_id;
     }
+
+
     Create_article_with_modal(id_modal_text,id_modal_user,id_modal_tags,id_modal_title,id_modal_check_Featured,id_modal_check_Public){
         var testo = $(id_modal_text).val();
         if(testo==""){
@@ -63,10 +91,19 @@ class ArticleController{
             if(tags == ""){
                 tags = "ALL";
             }
+            tags = tags.replace(","," ");
             var tag_ = this.tags_to_array(tags);
-
-            var articolo = new Articolo(tag_,title,testo,user);
+            var taggg = [];
+            for(var i = 0;i<tag_.length;i++){
+                if(tag_[i] != "" && tag_[i] != " "){
+                    taggg.push(tag_[i]);
+                }
+            }
+            var articolo = new Articolo(taggg,title,testo,user);
             /** */
+            var id_ = this.genera_id(articolo);
+            articolo.id = id_;
+
             if($(id_modal_check_Featured).prop("checked") == true){
                 articolo.featured = true;
             }
@@ -85,7 +122,6 @@ class ArticleController{
         
         var numero_art = $(".box_titolo_e_articolo").length;   /* aggiustare con funzione che cerca primo num libero */
         var nome_pulsante = "like_button" + numero_art;
-        console.log(nome_pulsante);
         var id_comment_text_in = "#text_in" + numero_art;
         var id_comment_user_in = "#user_in" + numero_art;
         var featured = "";
@@ -102,13 +138,16 @@ class ArticleController{
         }else{
             tagstring = articolo.tag;
         }
-        var testo_completo = $('<div id="_box'+ numero_art +'" class= "col-12 col-lg-4"><div class="big_box rounded '+ featured + draft + '"><div class="box_titolo_e_articolo"><header><h2><b>' + tagstring + '</b></h2></header><header><h1><em>'+ articolo.titolo +'</em></h1></header><p class="testo_articolo">' + articolo.testo + '</p></div><div class="row" style="width: 100%; margin-left: auto; margin-right: auto;"><footer class="col-9"><p class="text-truncate"><b>Articolo scritto da:</b>'+ articolo.autore +'</p></footer> <div class="like_div col-3"><button id="' + nome_pulsante +'" type="button" class="btn btn-secondary like_button float-right" onclick="controllore.like('+ nome_pulsante +')" data-toggle="button">Like</button></div><div id="commenti' + numero_art +'"></div><div  class="input-group mb-3"><input id="'+ id_comment_user_in + '" type="text" class="form-control" placeholder="Il tuo NickName"><div class="input-group-append"><button class="btn btn-outline-secondary bottoni_input" type="button" id="button-comment'+ numero_art +'" onclick="input_comment('+ '"' + id_comment_user_in + '"' +','+ '"' +id_comment_text_in + '"' + ',' + numero_art +')">Invia</button></div></div><div  class="input-group"><textarea id="' + id_comment_text_in + '" class="form-control" aria-label="With textarea" placeholder="Commenta..."></textarea></div></div></div>');
+        var testo_completo = $('<div id="_box'+ numero_art +'" class= "col-12 col-lg-4"><div class="big_box rounded '+ featured + draft + '"><div class="box_titolo_e_articolo"><header><h2><b>' + tagstring + '</b></h2></header><header><h1><em>'+ articolo.titolo +'</em></h1></header><p class="testo_articolo">' + articolo.testo + '</p></div><div class="row" style="width: 100%; margin-left: auto; margin-right: auto;"><footer class="col-9"><p class="text-truncate"><b>Articolo scritto da:</b>'+ articolo.autore +'</p></footer> <div class="like_div col-3"><button id="' + nome_pulsante +'" type="button" class="btn btn-secondary like_button float-right" onclick="controllore.like('+ nome_pulsante +')" data-toggle="button">Like</button></div><div id="commenti' + numero_art +'"></div><div  class="input-group mb-3"><input id="'+ id_comment_user_in + '" type="text" class="form-control" placeholder="Il tuo NickName"><div class="input-group-append"><button class="btn btn-outline-secondary bottoni_input" type="button" id="button-comment'+ numero_art +'" onclick="controllore.input_comment(' + numero_art +')">Invia</button></div></div><div  class="input-group"><textarea id="' + id_comment_text_in + '" class="form-control" aria-label="With textarea" placeholder="Commenta..."></textarea></div></div></div>');
         
         return testo_completo;
     }
 
     add_Article_to_Array(article){
-        array_Articoli[array_Articoli.length] = new Articolo(article.tags,article.titolo,article.testo,article.autore);
+        this.post_article_to( "https://texty-89895.firebaseio.com/posts.json", article);
+
+
+        array_Articoli[array_Articoli.length] = new Articolo(article.tag,article.titolo,article.testo,article.autore);
     }
 
     appendi_Articolo(articolo){
@@ -153,15 +192,35 @@ class ArticleController{
     get_array_from(url){
         var that = this;
         var options = {url: url, success: function(data, a, b){
-            console.log(that);
+
             console.log("data",data);
-            for(var i = 0;i<data.length;i++){
-                array_Articoli.push(that.transform_array(data[i]));
+
+            if(Array.isArray(data)){
+                for(var i = 0;i<data.length;i++){
+                    array_Articoli.push(that.transform_array(data[i]));
+                }
+            }else{
+                var array_id = Object.keys(data);
+                for(var i = 0;i<array_id.length;i++){
+                    if(that.check_integry(data[array_id[i]])){
+                        array_Articoli.push(that.transform_key_value_to_article(array_id[i],data[array_id[i]]));
+                    }
+                }
+
             }
-            console.log(array_Articoli);
             that.aggiorna_articoli();
         }};
         $.getJSON(options);
+    }
+    post_article_to(url,articolo){
+        var that = this;
+        var dato_output = this.transform_article_to_key_value(articolo);
+        var stringa = JSON.stringify(dato_output);
+        var options = {url: url, data: stringa, success: function(data, a, b){
+
+            
+        }, dataType: "json"};
+        $.post(options);
     }
 
 
@@ -176,6 +235,42 @@ class ArticleController{
         articolo.public = pubblico;
         articolo.featured = preferito;
         return articolo;
+    }
+
+    transform_key_value_to_article(index, element){
+        var testo = element.body;
+        var titolo = element.title;
+        var tags = element.tag;
+        var pubblico = element.public;
+        var preferito = element.featured;
+    
+        var articolo = new Articolo(tags,titolo,testo,"<strong>Anonimo</strong>");
+        articolo.public = pubblico;
+        articolo.featured = preferito;
+        articolo.id = index;
+        
+        return articolo;
+
+    }
+    transform_article_to_key_value(article){
+        var element = {body: article.testo,featured: article.featured, public: article.public, tag: article.tag, title: article.titolo};
+        /*var ritorno = {};
+        ritorno[article.id] = element;*/
+        return element;
+    }
+    check_integry(element){
+        if(typeof element.body == undefined || element.body == "undefined"){
+            return false;
+        }else if(typeof element.title == undefined || element.title == "undefined"){
+            return false;
+        }else if(typeof element.tag == undefined){
+            return false;
+        }else if(typeof element.public == undefined){
+            return false;
+        }else{
+            return true;
+        }
+        
     }
 
 
