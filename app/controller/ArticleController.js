@@ -1,25 +1,46 @@
 class ArticleController{
 
     constructor(array_Articoli_, context_pagina){
+        var restController;
         var array_Articoli;
         this.array_Articoli = array_Articoli_;
         var url_output;
+        var url_get;
+        var modalName;
         var modalTitle;
         var modalText;
         var modalTags;
         var modalUser;
+        var num_of_articles;
+        var classiArticoliCS3;
+
         
         this.url_output = "https://texty-89895.firebaseio.com/posts.json";
         this.url_get= "https://texty-89895.firebaseio.com/posts.json";
-        this.modalTitle = $("#title_in_modal");
-        this.modalText = $("#text_in_modal");
-        this.modalTags = $("#categoria_in_modal");
-        this.modalUser = $("#user_in_modal");
+        
+    
+
     }
     init(){
+        var that = this;
         $(document).ready(function(){
+            that.restController = new RestController();
+            that.modalTitle = $("#title_in_modal");
+            that.modalText = $("#text_in_modal");
+            that.modalTags = $("#categoria_in_modal");
+            that.modalUser = $("#user_in_modal");
+            that.modalName = $("#Modal_add_article");
+            that.num_of_articles = $("#n_of_elements");
+            that.classiArticoliCS3 = ".box_titolo_e_articolo";
 
-        })
+            that.get_array_from(that.url_get);
+
+
+
+
+
+
+        });
     }
 
     
@@ -40,8 +61,7 @@ class ArticleController{
     input_comment(int){
         var user = $("#user_in" + int).val();
         var comment = $("#text_in" + int).val();
-        
-        console.log("commento", user, comment);
+
         if(user == ""){
             user = "Anonimo";
         }
@@ -126,15 +146,20 @@ class ArticleController{
             }
 
             this.add_Article_to_Array(articolo);
+
+            /*
+            this.post_article_to( this.url_output, article);*/
+            this.update_article_online(this.genera_id(articolo),articolo);
+
             this.aggiorna_articoli();
             this.clean_modal();
-            $("#Modal_add_article").modal("hide");
+            this.modalName.modal("hide");
         }
     }
     /* funzioni sugli articoli*/
     genera_html_Articolo(articolo){/* il'articolo va aggiunto PRIMA di generarne altri, consiglio di usare SOLO dentro appendi_Articolo() */
         
-        var numero_art = $(".box_titolo_e_articolo").length;   /* aggiustare con funzione che cerca primo num libero */
+        var numero_art = $(this.classiArticoliCS3).length;   /* aggiustare con funzione che cerca primo num libero */
         var nome_pulsante = "like_button" + numero_art;
         var id_comment_text_in = "text_in" + numero_art;
         var id_comment_user_in = "user_in" + numero_art;
@@ -158,8 +183,6 @@ class ArticleController{
     }
 
     add_Article_to_Array(article){
-        this.post_article_to( this.url_output, article);
-
 
         array_Articoli[array_Articoli.length] = new Articolo(article.tag,article.titolo,article.testo,article.autore);
     }
@@ -204,45 +227,44 @@ class ArticleController{
         for(var i = 0; i<array_Articoli.length;i++){
             this.appendi_Articolo(array_Articoli[i]);
         }
-        var numero_art = $(".box_titolo_e_articolo").length;
-        $("#n_of_elements").html(numero_art);
+        var numero_art = $(this.classiArticoliCS3).length;
+        this.num_of_articles.html(numero_art);
     }
 
     /* "https://api.npoint.io/24620ef625c768a4f3c4" */
-    get_array_from(url){
+    get_array_from(){
         var that = this;
-        var options = {url: url, success: function(data, a, b){
-
-            console.log("data",data);
-
-            if(Array.isArray(data)){
-                for(var i = 0;i<data.length;i++){
-                    array_Articoli.push(that.transform_array(data[i]));
-                }
-            }else{
-                var array_id = Object.keys(data);
-                for(var i = 0;i<array_id.length;i++){
-                    if(that.check_integry(data[array_id[i]])){
-                        array_Articoli.push(that.transform_key_value_to_article(array_id[i],data[array_id[i]]));
+        this.restController.get(this.url_get, function(data,status,xhr){
+                if(Array.isArray(data)){
+                    for(var i = 0;i<data.length;i++){
+                        that.array_Articoli.push(that.transform_array(data[i]));
                     }
-                }
+                }else{
+                    var array_id = Object.keys(data);
+                    for(var i = 0;i<array_id.length;i++){
+                        if(that.check_integry(data[array_id[i]])){
+                            that.array_Articoli.push(that.transform_key_value_to_article(array_id[i],data[array_id[i]]));
+                        }
+                    }
 
-            }
+                }
+            
             that.aggiorna_articoli();
-        }};
-        $.getJSON(options);
+        });
     }
     post_article_to(url,articolo){
         var that = this;
         var dato_output = this.transform_article_to_key_value(articolo);
-        var stringa = JSON.stringify(dato_output);
-        var options = {url: url, data: stringa, success: function(data, a, b){
+        this.restController.post(this.url_output, dato_output, function(){
 
-            
-        }, dataType: "json"};
-        $.post(options);
+        });
     }
 
+    update_article_online(id,articolo){
+        var dato_output = this.transform_article_to_key_value(articolo);
+        this.restController.update(this.url_output,id, dato_output, function(){
+        });
+    }
 
     transform_array(backArticle){
         var testo = backArticle.body;
