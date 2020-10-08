@@ -14,6 +14,8 @@ class ArticleController{
         var num_of_articles;
         var classiArticoliCS3;
 
+        var editMode = false;
+
         
         this.url_output = "https://texty-89895.firebaseio.com/posts.json";
         this.url_get= "https://texty-89895.firebaseio.com/posts.json";
@@ -267,14 +269,14 @@ class ArticleController{
     }
     delete_article_from_server(articolo){
         var that = this;
-        this.restController.delete(this.url_output,articolo.id, dato_output, function(){
+        this.restController.delete(this.url_output,articolo.id, function(){
             
         that.DeleteArticle_from_page(that.array_Articoli.indexOf(articolo));
         });
     }
     delete_article_byID_from_server(id_){
         var that = this;
-        this.restController.delete(this.url_output,id_, dato_output, function(){
+        this.restController.delete(this.url_output,id_, function(){
             var index_article;
             for(var i = 0;i<that.array_Articoli.lenth;i++){
                 if(that.array_Articoli[i].id == id_){
@@ -332,6 +334,8 @@ class ArticleController{
             return true;
         }
         
+    }open_modal(articolo){
+
     }
 
 
