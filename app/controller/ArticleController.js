@@ -108,7 +108,7 @@ class ArticleController{
     }
 
 
-    Create_article_with_modal(id_modal_text,id_modal_user,id_modal_tags,id_modal_title,id_modal_check_Featured,id_modal_check_Public){
+    Create_article_with_modal(id_modal_text,id_modal_user,id_modal_tags,id_modal_title,id_modal_check_Featured,id_modal_check_Public,id_Articolo_modal){
         var testo = $(id_modal_text).val();
         if(testo==""){
 
@@ -135,8 +135,7 @@ class ArticleController{
             }
             var articolo = new Articolo(taggg,title,testo,user);
             /** */
-            var id_ = this.genera_id(articolo);
-            articolo.id = id_;
+            articolo.id = id_Articolo_modal;
 
             if($(id_modal_check_Featured).prop("checked") == true){
                 articolo.featured = true;
@@ -240,11 +239,12 @@ class ArticleController{
                         that.array_Articoli.push(that.transform_array(data[i]));
                     }
                 }else{
+                    if(data === null){}else{
                     var array_id = Object.keys(data);
                     for(var i = 0;i<array_id.length;i++){
                         if(that.check_integry(data[array_id[i]])){
                             that.array_Articoli.push(that.transform_key_value_to_article(array_id[i],data[array_id[i]]));
-                        }
+                        }}
                     }
 
                 }
@@ -263,6 +263,25 @@ class ArticleController{
     update_article_online(id,articolo){
         var dato_output = this.transform_article_to_key_value(articolo);
         this.restController.update(this.url_output,id, dato_output, function(){
+        });
+    }
+    delete_article_from_server(articolo){
+        var that = this;
+        this.restController.delete(this.url_output,articolo.id, dato_output, function(){
+            
+        that.DeleteArticle_from_page(that.array_Articoli.indexOf(articolo));
+        });
+    }
+    delete_article_byID_from_server(id_){
+        var that = this;
+        this.restController.delete(this.url_output,id_, dato_output, function(){
+            var index_article;
+            for(var i = 0;i<that.array_Articoli.lenth;i++){
+                if(that.array_Articoli[i].id == id_){
+                    index_article = i;
+                }
+            }
+        that.DeleteArticle_from_page(index_article);
         });
     }
 

@@ -27,20 +27,24 @@ class RestController{
 
     update(url,id,dato,onSuccess,onError){
         var that = this;
-        var dati;
-        $.get({
-            url: url,
-            success: function(data,status,xhr){
-                that.dati = data;
-                data[id] = dato;
-                $.ajax({
-                    url: url,
-                    type: "PUT",
-                    data: JSON.stringify(data),
-                    success: onSuccess
-                });
-            }
+        var url_changed = url.replace(".json", "/" + id + ".json");
+        $.ajax({
+            url: url_changed,
+            type: "PUT",
+            data: JSON.stringify(dato),
+            success: onSuccess
         });
+        
+    }
+    delete(url,id,onSuccess,onError){
+        var that = this;
+        var url_changed = url.replace(".json", "/" + id + ".json");
+        $.ajax({
+            url: url_changed,
+            type: "DELETE",
+            success: onSuccess
+        });
+        
     }
 
 
