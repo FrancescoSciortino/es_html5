@@ -13,12 +13,14 @@ class ArticleController{
         var modalUser;
         var num_of_articles;
         var classiArticoliCS3;
+        var modalArticleId;
+        var err_no_article_box;
 
         var editMode = false;
 
         
-        this.url_output = "https://texty-89895.firebaseio.com/posts.json";
-        this.url_get= "https://texty-89895.firebaseio.com/posts.json";
+        this.url_output = "http://localhost:3000/tasks";
+        this.url_get= "http://localhost:3000/tasks";
         
     
 
@@ -28,12 +30,14 @@ class ArticleController{
         $(document).ready(function(){
             that.restController = new RestController();
             that.modalTitle = $("#title_in_modal");
+            that.modalArticleId = $("#modal_ID_Articolo");
             that.modalText = $("#text_in_modal");
             that.modalTags = $("#categoria_in_modal");
             that.modalUser = $("#user_in_modal");
             that.modalName = $("#Modal_add_article");
             that.num_of_articles = $("#n_of_elements");
             that.classiArticoliCS3 = ".box_titolo_e_articolo";
+            that.err_no_article_box = $("#error_box");
 
             that.get_array_from(that.url_get);
 
@@ -81,7 +85,10 @@ class ArticleController{
         this.modalTags.val("");
         this.modalTitle.val("");
         this.modalText.val("");
-    } genera_id(article){
+
+    } 
+    /*
+    genera_id(article){
         
         var lettere = [];
         lettere[0] = article.testo.charAt(0);
@@ -108,7 +115,7 @@ class ArticleController{
 
         return string_id;
     }
-
+    */
 
     Create_article_with_modal(id_modal_text,id_modal_user,id_modal_tags,id_modal_title,id_modal_check_Featured,id_modal_check_Public,id_Articolo_modal){
         var testo = $(id_modal_text).val();
@@ -118,16 +125,7 @@ class ArticleController{
             var user = $(id_modal_user).val();
             var title = $(id_modal_title).val();
             var tags = $(id_modal_tags).val();
-            if(user == ""){
-                user = "<strong>Anonimo</strong>";
-            }
-            if(title == ""){
-                title = "Senza Titolo";
-            }
-            if(tags == ""){
-                tags = "ALL";
-            }
-            tags = tags.replace(","," ");
+            tags = tags.replace(/,/g," ");
             var tag_ = this.tags_to_array(tags);
             var taggg = [];
             for(var i = 0;i<tag_.length;i++){
@@ -137,21 +135,26 @@ class ArticleController{
             }
             var articolo = new Articolo(taggg,title,testo,user);
             /** */
-            articolo.id = id_Articolo_modal;
+            articolo.id = $(id_Articolo_modal).val();
 
             if($(id_modal_check_Featured).prop("checked") == true){
                 articolo.featured = true;
+            }else{
+                articolo.featured = false;
             }
             if($(id_modal_check_Public).prop("checked")  == false){
                 articolo.public = false;
+            }else{
+                articolo.public = true;
             }
 
             this.add_Article_to_Array(articolo);
 
-            /*
-            this.post_article_to( this.url_output, article);*/
-            this.update_article_online(this.genera_id(articolo),articolo);
-
+            if(articolo.id == "temp" || articolo.id == ""){
+            this.post_article_to(this.url_output, articolo);
+            }else{
+                this.update_article_online(articolo.id,articolo);
+            }
             this.aggiorna_articoli();
             this.clean_modal();
             this.modalName.modal("hide");
@@ -184,8 +187,11 @@ class ArticleController{
     }
 
     add_Article_to_Array(article){
-
-        array_Articoli[array_Articoli.length] = new Articolo(article.tag,article.titolo,article.testo,article.autore);
+        articolo_nuovo = new Articolo(article.tag,article.titolo,article.testo,article.autore);
+        articolo_nuovo.id = article.id;
+        articolo_nuovo.featured = article.featured;
+        articolo_nuovo.public = article.public;
+        array_Articoli.push(articolo_nuovo); 
     }
 
     appendi_Articolo(articolo){
@@ -230,6 +236,11 @@ class ArticleController{
         }
         var numero_art = $(this.classiArticoliCS3).length;
         this.num_of_articles.html(numero_art);
+        if(numero_art == 0){
+            err_no_article_box.css("display","inline")
+        }else{
+            err_no_article_box.css("display","none")
+        }
     }
 
     /* "https://api.npoint.io/24620ef625c768a4f3c4" */
@@ -267,6 +278,22 @@ class ArticleController{
         this.restController.update(this.url_output,id, dato_output, function(){
         });
     }
+
+    patch_article_online(id,articolo){
+        if(articolo.testo == ""){
+            articolo.testo = null;
+        }if(articolo.autore == ""){
+            articolo.autore = null;
+        }if(articolo.categoria.length == 0 || (articolo.categoria.length == 1 && articolo.categoria[0] == "ALL")){
+            articolo.categoria = null;
+        }if(articolo.titolo == "" || articolo.titolo == "Senza Titolo"){
+            articolo.titolo = null;
+        }
+
+        var dato_output = this.transform_article_to_key_value(articolo);
+        this.restController.patch(this.url_output,id, dato_output, function(){
+        });
+    }
     delete_article_from_server(articolo){
         var that = this;
         this.restController.delete(this.url_output,articolo.id, function(){
@@ -293,8 +320,10 @@ class ArticleController{
         var tags = backArticle.tag;
         var pubblico = backArticle.public;
         var preferito = backArticle.featured;
+        var autor = backArticle.autore;
     
-        var articolo = new Articolo(tags,titolo,testo,"<strong>Anonimo</strong>");
+        var articolo = new Articolo(tags,titolo,testo,autor);
+        articolo.id = backArticle._id
         articolo.public = pubblico;
         articolo.featured = preferito;
         return articolo;
@@ -306,8 +335,9 @@ class ArticleController{
         var tags = element.tag;
         var pubblico = element.public;
         var preferito = element.featured;
+        var autor = element.autore;
     
-        var articolo = new Articolo(tags,titolo,testo,"<strong>Anonimo</strong>");
+        var articolo = new Articolo(tags,titolo,testo,autor);
         articolo.public = pubblico;
         articolo.featured = preferito;
         articolo.id = index;
@@ -316,7 +346,7 @@ class ArticleController{
 
     }
     transform_article_to_key_value(article){
-        var element = {body: article.testo,featured: article.featured, public: article.public, tag: article.tag, title: article.titolo};
+        var element = {body: article.testo,featured: article.featured, public: article.public, Ttag: article.tag, title: article.titolo, _id: article.id};
         /*var ritorno = {};
         ritorno[article.id] = element;*/
         return element;

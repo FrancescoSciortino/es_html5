@@ -86,4 +86,23 @@ header{
     padding-right: 0;
 }.featured{
     box-shadow: 10px 5px rgb(71, 9, 77);
+} #div_bar{
+    
+    width: 100%;
+    height: 100%;
+    position: fixed; 
+    top: 0;
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.349);
+    
+} #barra{
+    position: fixed;
+    z-index: 8;
+    width: 75%;
+    margin-left: 12.5%;
+    margin-right: 12.5%;
+} #bar1{
+    z-index: 9;
+} .div-caricamento{
+    display: none;
 }

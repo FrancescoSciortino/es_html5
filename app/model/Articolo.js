@@ -4,13 +4,18 @@ class Articolo{
         this.id = "temp";
         this.testo = testo;
         this.titolo = titolo;
+        if(this.titolo == ""){
+                this.titolo = "Senza Titolo";
+        }
         this.autore = autore;
-        this.featured = false;
-        this.piace = false;
+        if(this.autore == ""){
+                this.autore = "Anonimo";
+        }
+        this.featured = null;
         this.tag = [];
         if(Array.isArray(tag)){
                 this.tag = tag;
         }
-        this.public = true;
+        this.public = null;
         }
 }
